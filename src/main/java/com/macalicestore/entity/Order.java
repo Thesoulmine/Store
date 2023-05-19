@@ -3,6 +3,7 @@ package com.macalicestore.entity;
 import jakarta.persistence.*;
 
 import java.sql.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "orders")
@@ -22,12 +23,12 @@ public class Order {
 
     private String address;
 
-    private String postalСode;
+    private String postalCode;
 
     private String telephoneNumber;
 
-//    @ManyToMany
-//    private List<Listing> listings;
+    @OneToMany
+    private List<Product> products;
 
     private String status;
 }

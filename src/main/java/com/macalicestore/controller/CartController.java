@@ -16,7 +16,7 @@ public class CartController {
 
     @GetMapping("/cart")
     public String showCart(ModelMap model) {
-        model.addAttribute("listings", cart.getListings());
+        model.addAttribute("products", cart.getProducts());
         return "cart";
     }
 }

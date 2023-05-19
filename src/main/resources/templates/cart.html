@@ -20,11 +20,11 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="listing : ${listings}">
-            <td style="vertical-align: middle" th:utext="${listing.title}"></td>
-            <td style="vertical-align: middle" th:utext="${listing.description}"></td>
-            <td style="vertical-align: middle" th:utext="${listing.material}"></td>
-            <td style="vertical-align: middle" th:utext="${listing.price}"></td>
+        <tr th:each="product : ${products}">
+            <td style="vertical-align: middle" th:utext="${product.listing.title}"></td>
+            <td style="vertical-align: middle" th:utext="${product.listing.description}"></td>
+            <td style="vertical-align: middle" th:utext="${product.listing.material}"></td>
+            <td style="vertical-align: middle" th:utext="${product.listing.price}"></td>
 <!--            <td style="vertical-align: middle" th:text="${listing.colours}"></td>-->
         </tr>
         </tbody>

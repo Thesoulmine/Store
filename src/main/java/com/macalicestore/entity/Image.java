@@ -19,22 +19,4 @@ public class Image {
     private String name;
 
     private String type;
-
-    public Image() {
-
-    }
-
-    public Image(byte[] content, String name, String type) {
-        this.content = content;
-        this.name = name;
-        this.type = type;
-    }
-
-    public Image(String name) {
-        this.name = name;
-    }
-
-    public Image(byte[] content) {
-        this.content = content;
-    }
 }

@@ -12,13 +12,13 @@ import java.util.List;
 @SessionScope
 public class Cart {
 
-    private List<Listing> listings = new ArrayList<>();
+    private List<Product> products = new ArrayList<>();
 
-    public void add(Listing listing) {
-        listings.add(listing);
+    public void add(Product product) {
+        products.add(product);
     }
 
     public void clear() {
-        listings.clear();
+        products.clear();
     }
 }
