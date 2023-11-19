@@ -1,5 +1,6 @@
 package com.macalicestore.entity;
 
+import com.macalicestore.entity.Product;
 import lombok.Data;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.SessionScope;
@@ -12,13 +13,7 @@ import java.util.List;
 @SessionScope
 public class Cart {
 
-    private List<Product> products = new ArrayList<>();
+    private List<CartProduct> products = new ArrayList<>();
 
-    public void add(Product product) {
-        products.add(product);
-    }
-
-    public void clear() {
-        products.clear();
-    }
+    private Long sequenceNumber = 1L;
 }

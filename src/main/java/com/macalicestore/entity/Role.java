@@ -1,10 +1,12 @@
 package com.macalicestore.entity;
 
+import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 
 import jakarta.persistence.*;
 
 @Entity
+@Data
 @Table(name = "roles")
 public class Role implements GrantedAuthority {
 

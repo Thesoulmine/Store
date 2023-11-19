@@ -1,11 +1,22 @@
 package com.macalicestore.entity;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalTimeDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.ZonedDateTimeSerializer;
 import jakarta.persistence.*;
+import lombok.Data;
 
 import java.sql.Date;
+import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.List;
 
 @Entity
+@Data
 @Table(name = "orders")
 public class Order {
 
@@ -13,7 +24,9 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Date orderDate;
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+    private LocalDateTime orderDate;
 
     private String email;
 
@@ -27,8 +40,11 @@ public class Order {
 
     private String telephoneNumber;
 
-    @OneToMany
+    @OneToMany(cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE
+            })
     private List<Product> products;
 
-    private String status;
+    private boolean isPayed;
 }

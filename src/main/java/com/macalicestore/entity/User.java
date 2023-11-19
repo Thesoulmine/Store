@@ -1,6 +1,7 @@
 package com.macalicestore.entity;
 
 import jakarta.persistence.*;
+import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -9,6 +10,7 @@ import java.util.List;
 
 
 @Entity
+@Data
 @Table(name = "users")
 public class User implements UserDetails {
 
@@ -19,14 +21,6 @@ public class User implements UserDetails {
     private String username;
 
     private String password;
-
-//    @NotEmpty(message = "First name can not be empty")
-//    private String firstName;
-//
-//    @NotEmpty(message = "Last name can not be empty")
-//    private String lastName;
-//
-//    private Integer age;
 
     @ManyToMany(fetch = FetchType.LAZY)
     private List<Role> roles;
@@ -54,30 +48,6 @@ public class User implements UserDetails {
     public void setRoles(List<Role> roles) {
         this.roles = roles;
     }
-
-//    public String getFirstName() {
-//        return firstName;
-//    }
-//
-//    public void setFirstName(String firstName) {
-//        this.firstName = firstName;
-//    }
-//
-//    public String getLastName() {
-//        return lastName;
-//    }
-//
-//    public void setLastName(String lastName) {
-//        this.lastName = lastName;
-//    }
-//
-//    public Integer getAge() {
-//        return age;
-//    }
-//
-//    public void setAge(Integer age) {
-//        this.age = age;
-//    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

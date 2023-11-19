@@ -16,7 +16,7 @@ async function showListing() {
                     <button class="btn btn-primary" data-id="${listing.id}" id="addToCart_${listing.id}" onclick="addToCart(this.getAttribute('data-id'), this.getAttribute('id'))">Add to cart</button>
                 </div>
             </div>
-        </div>`
+        </div>`;
     document.getElementById("listing").innerHTML = li;
 }
 

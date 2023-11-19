@@ -1,4 +1,4 @@
-async function addToCart(data_id, id) {
+async function addToCart(data_id) {
     let response = await fetch(`http://localhost:8081/api/cart`, {
         method: 'POST',
         headers: {
@@ -16,22 +16,20 @@ async function addToCart(data_id, id) {
 async function showListings() {
     let response = await fetch(`http://localhost:8081/api/listings`);
     let commits = await response.json();
-    let imageResponse = await fetch(`http://localhost:8081/api/listings/images`);
-    let imageCommits = await imageResponse.json();
-    console.log(imageCommits[0]);
     let li = '';
     let i = 0;
+    //
     commits.forEach(listing => {
         li += `
             <a href="http://localhost:8081/listing/${listing.id}">
                 <div class="col">
                     <div class="card h-100">
-                        <img src="data:image/jpeg;base64, ${imageCommits[i].content}" class="card-img-top" alt="...">
+                        <img src="http://localhost:8081/api/listings/images/_MG_2441%20(2)%20(1)%20(1)%20(1).jpg" class="card-img-top" alt="...">
                         <div class="card-body">
                             <h5 class="card-title">${listing.title}</h5>
                             <p class="card-text">${listing.description}</p>
                             <h5 class="card-title">${listing.price}</h5>
-                            <button class="btn btn-primary" data-id="${listing.id}" id="addToCart_${listing.id}" onclick="addToCart(this.getAttribute('data-id'), this.getAttribute('id'))">Add to cart</button>
+                            <button class="btn btn-primary" data-id="${listing.id}"onclick="addToCart(this.getAttribute('data-id'))">Add to cart</button>
                         </div>
                     </div>
                 </div>

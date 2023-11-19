@@ -4,12 +4,16 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.List;
 import java.util.Set;
 
 @Data
+@Inheritance(strategy = InheritanceType.JOINED)
 @Entity
 @Table(name = "listings")
-public class Listing implements Serializable {
+@DiscriminatorColumn(name = "listing_type")
+public class Listing {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,23 +24,15 @@ public class Listing implements Serializable {
     @Column(length = 65535)
     private String description;
 
-    private String material;
-
-    private Integer price;
+    private BigDecimal price;
 
     @ManyToMany(fetch = FetchType.LAZY,
             cascade = {
                     CascadeType.PERSIST,
                     CascadeType.MERGE
             })
-    private Set<Colour> colours;
-
-    @ManyToMany(fetch = FetchType.LAZY,
-            cascade = {
-                    CascadeType.PERSIST,
-                    CascadeType.MERGE
-            })
-    private Set<Image> images;
+    @OrderColumn
+    private List<Image> images;
 
     @ManyToOne(fetch = FetchType.LAZY,
             cascade = {

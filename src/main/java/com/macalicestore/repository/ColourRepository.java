@@ -5,5 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ColourRepository extends JpaRepository<Colour, Long> {
 
-    public Colour findByName(String name);
+    Colour findByName(String name);
 }
