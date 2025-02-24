@@ -1,7 +1,6 @@
 package com.macalicestore.delivery;
 
 import com.macalicestore.entity.Order;
-import org.json.JSONObject;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -25,15 +24,6 @@ public class RussianPostDeliveryManager implements DeliveryManager {
 
     @Override
     public LocalDateTime getDeliveryTime(Order order) {
-        RestTemplate restTemplate = new RestTemplate();
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("Authorization", "AccessToken " + applicationAuthorizationToken);
-        headers.set("X-User-Authorization", "Basic" + userAuthorizationToken);
-        headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
-        JSONObject deliveryInformationJsonObject = new JSONObject();
-        //deliveryInformationJsonObject.put();
-        HttpEntity<JSONObject> httpEntity = new HttpEntity<>(deliveryInformationJsonObject, headers);
-
         return LocalDateTime.now();
     }
 

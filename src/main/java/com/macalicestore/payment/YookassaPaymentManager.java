@@ -4,6 +4,7 @@ import net.suuft.yookassa.Yookassa;
 import net.suuft.yookassa.exception.BadRequestException;
 import net.suuft.yookassa.exception.UnspecifiedShopInformation;
 import net.suuft.yookassa.model.Amount;
+import net.suuft.yookassa.model.Payment;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -21,10 +22,10 @@ public class YookassaPaymentManager implements PaymentManager {
     @Override
     public void createPayment(BigDecimal cartTotalCost, BigDecimal deliveryCost) throws BadRequestException {
         try {
-            net.suuft.yookassa.model.Payment payment = yookassa.createPayment(
+            Payment payment = yookassa.createPayment(
                     new Amount(cartTotalCost.add(deliveryCost), "RUB"),
                     "Оплата",
-                    "http://localhost:8081");
+                    "http://localhost:8080");
             System.out.println(payment.confirmation.confirmation_url);
         } catch (UnspecifiedShopInformation | IOException e) {
             throw new RuntimeException(e);

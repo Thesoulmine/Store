@@ -3,6 +3,8 @@ package com.macalicestore.service;
 import com.macalicestore.entity.CartProduct;
 import com.macalicestore.entity.Order;
 import com.macalicestore.entity.Product;
+import com.macalicestore.listing.colour.ColourService;
+import com.macalicestore.listing.listing.ListingService;
 import com.macalicestore.repository.OrderRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,15 +17,18 @@ import java.util.List;
 public class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
-
     private final ListingService listingService;
-
     private final CartService cartService;
+    private final ColourService colourService;
 
-    public OrderServiceImpl(OrderRepository orderRepository, ListingService listingService, CartService cartService) {
+    public OrderServiceImpl(OrderRepository orderRepository,
+                            ListingService listingService,
+                            CartService cartService,
+                            ColourService colourService) {
         this.orderRepository = orderRepository;
         this.listingService = listingService;
         this.cartService = cartService;
+        this.colourService = colourService;
     }
 
     @Transactional
@@ -35,7 +40,7 @@ public class OrderServiceImpl implements OrderService {
         for (CartProduct cartProduct : cartProducts) {
             Product product = new Product();
             product.setListing(listingService.findListingById(cartProduct.getListingId()));
-            product.setColour(listingService.findColourById(cartProduct.getColourId()));
+            product.setColour(colourService.findColourById(cartProduct.getColourId()));
             product.setQuantity(cartProduct.getQuantity());
             products.add(product);
         }

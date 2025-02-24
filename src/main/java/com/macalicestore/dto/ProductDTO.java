@@ -1,7 +1,7 @@
 package com.macalicestore.dto;
 
-import com.macalicestore.entity.Colour;
-import com.macalicestore.entity.Listing;
+import com.macalicestore.listing.colour.Colour;
+import com.macalicestore.listing.listing.Listing;
 import lombok.Data;
 import org.mapstruct.Mapper;
 

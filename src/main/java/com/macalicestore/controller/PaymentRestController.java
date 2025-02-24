@@ -4,13 +4,19 @@ import com.macalicestore.entity.Order;
 import com.macalicestore.exception.EmptyCartException;
 import com.macalicestore.exception.PaymentException;
 import com.macalicestore.service.PurchaseService;
+import net.suuft.yookassa.Yookassa;
 import net.suuft.yookassa.exception.BadRequestException;
+import net.suuft.yookassa.exception.UnspecifiedShopInformation;
+import net.suuft.yookassa.model.Amount;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.io.IOException;
+import java.math.BigDecimal;
 
 
 @RestController
@@ -33,5 +39,10 @@ public class PaymentRestController {
             throw new RuntimeException(e);
         }
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping("/succeeded")
+    public void testSucceeded() {
+
     }
 }

@@ -11,7 +11,7 @@ public class YookassaConfig {
 
     @Bean
     public Yookassa yookassa() {
-        return YookassaInitializer.initializeSdk(322550,
-                "test_ZJgFNaxWAxmCk4TW9ks6Up8M-cJOC8yt73UZcA-y7sc");
+        return YookassaInitializer.initializeSdk(443459,
+                "test_oD07lKe-3MIYWNtfXOlW4twejwxyDiH8QMICi3mmPlU");
     }
 }

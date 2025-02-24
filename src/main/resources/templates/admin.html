@@ -14,9 +14,13 @@
             <script>
                 ecomStartWidget({
                     id: 44395,
-                    callbackFunction: null,
+                    callbackFunction: onCall,
                     containerId: 'ecom-widget'
                 });
+
+                function onCall(data) {
+                    console.log(data)
+                }
             </script>
         </div>
         <form id="addListingForm" name="addListingForm">

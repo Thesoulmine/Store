@@ -1,6 +1,7 @@
 package com.macalicestore.service;
 
 import com.macalicestore.entity.*;
+import com.macalicestore.listing.listing.ListingService;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;

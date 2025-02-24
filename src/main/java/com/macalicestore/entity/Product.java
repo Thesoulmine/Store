@@ -1,5 +1,7 @@
 package com.macalicestore.entity;
 
+import com.macalicestore.listing.listing.Listing;
+import com.macalicestore.listing.colour.Colour;
 import jakarta.persistence.*;
 import lombok.Data;
 

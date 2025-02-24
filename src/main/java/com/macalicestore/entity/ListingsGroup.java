@@ -1,11 +1,15 @@
 package com.macalicestore.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "listings_groups")
 public class ListingsGroup {
@@ -14,9 +18,9 @@ public class ListingsGroup {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany
-    private List<PhysicalProductListing> physicalProductListings;
+    @OneToMany(cascade = CascadeType.PERSIST)
+    private List<PhysicalListing> physicalListings;
 
-    @OneToOne
-    private DigitalProductListing digitalProductListing;
+    @OneToOne(cascade = CascadeType.PERSIST)
+    private DigitalListing digitalListing;
 }
