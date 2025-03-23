@@ -1,16 +1,10 @@
 package com.macalicestore.listing.listing;
 
-import com.macalicestore.listing.category.CategoryRepository;
 import com.macalicestore.listing.category.CategoryService;
-import com.macalicestore.listing.colour.ColourRepository;
-import com.macalicestore.entity.*;
 import com.macalicestore.listing.colour.ColourService;
-import com.macalicestore.listing.description.DescriptionRepository;
 import com.macalicestore.listing.description.DescriptionService;
 import com.macalicestore.listing.material.Material;
-import com.macalicestore.listing.material.MaterialRepository;
 import com.macalicestore.listing.material.MaterialService;
-import com.macalicestore.listing.size.SizeRepository;
 import com.macalicestore.listing.image.ImageService;
 import com.macalicestore.listing.size.SizeService;
 import org.springframework.stereotype.Service;

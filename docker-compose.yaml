@@ -1,0 +1,26 @@
+services:
+  postgres:
+    image: postgres:15.6-bullseye
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+    ports:
+      - "5432:5432"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+  rabbitmq:
+    image: rabbitmq:management
+    hostname: rabbitmq
+    restart: always
+    environment:
+      - RABBITMQ_DEFAULT_USER=admin
+      - RABBITMQ_DEFAULT_PASS=admin
+    volumes:
+      - rabbitmq-data:/rabbitmq:/var/lib/rabbitmq
+    ports:
+      - 15672:15672
+      - 5672:5672
+
+volumes:
+  db-data:
+  rabbitmq-data:

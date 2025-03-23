@@ -1,7 +1,5 @@
 package com.macalicestore.listing.listing;
 
-import com.macalicestore.entity.DigitalListing;
-import com.macalicestore.entity.PhysicalListing;
 import org.mapstruct.*;
 
 import java.util.List;

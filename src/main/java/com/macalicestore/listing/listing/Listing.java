@@ -14,8 +14,8 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Inheritance(strategy = InheritanceType.JOINED)
 @Entity
+@Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "listings")
 @DiscriminatorColumn(name = "listing_type")
 public class Listing {
@@ -30,6 +30,7 @@ public class Listing {
 
     //TODO Проверить CascadeType.MERGE
     @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "description id")
     private Description description;
 
     private BigDecimal price;
