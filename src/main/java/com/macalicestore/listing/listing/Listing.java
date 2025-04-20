@@ -1,8 +1,9 @@
 package com.macalicestore.listing.listing;
 
 import com.macalicestore.listing.category.Category;
-import com.macalicestore.listing.image.Image;
 import com.macalicestore.listing.description.Description;
+import com.macalicestore.listing.image.Image;
+import com.macalicestore.listing.title.Title;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,30 +17,44 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-@Table(name = "listings")
 @DiscriminatorColumn(name = "listing_type")
+@Table(name = "listings")
 public class Listing {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String title;
+    @OneToOne(
+            fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE,
+                    CascadeType.REMOVE})
+    @JoinColumn(name = "title_id")
+    private Title title;
+
+    @OneToOne(
+            fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE,
+                    CascadeType.REMOVE})
+    @JoinColumn(name = "description_id")
+    private Description description;
 
     private boolean isActive;
 
-    //TODO Проверить CascadeType.MERGE
-    @ManyToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "description id")
-    private Description description;
-
     private BigDecimal price;
 
-    //TODO Проверить CascadeType.MERGE
-    @ManyToMany(cascade = CascadeType.PERSIST)
+    @ManyToMany(
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE
+    })
     @OrderColumn
     private List<Image> images;
 
-    @ManyToMany(cascade = CascadeType.PERSIST)
+    @ManyToMany(cascade = CascadeType.PERSIST, mappedBy = "listings")
     private List<Category> categories;
 }

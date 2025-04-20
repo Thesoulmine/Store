@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
-import com.macalicestore.purchase.Product;
+import com.macalicestore.purchase.Purchase;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -37,11 +37,11 @@ public class Order {
     private String telephoneNumber;
 
     @OneToMany(cascade = {
-                    CascadeType.PERSIST,
-                    CascadeType.MERGE
-            })
+            CascadeType.PERSIST,
+            CascadeType.MERGE
+    })
     @JoinColumn(name = "product_id")
-    private List<Product> products;
+    private List<Purchase> purchases;
 
     private boolean isPayed;
 }

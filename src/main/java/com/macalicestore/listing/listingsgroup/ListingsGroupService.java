@@ -8,5 +8,9 @@ public interface ListingsGroupService {
 
     ListingsGroup getListingsGroupById(Long id);
 
-    void saveListingsGroup(ListingsGroupDTO listingsGroupDTO);
+    ListingsGroup saveListingsGroup(ListingsGroup listingsGroup);
+
+    void deleteListingsGroupById(Long id);
+
+    ListingsGroup updateListingsGroup(ListingsGroup listingsGroup, Long id);
 }

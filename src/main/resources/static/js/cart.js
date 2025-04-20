@@ -1,12 +1,12 @@
 async function createPayment() {
-    let response = await fetch(`http://localhost:8081/api/cart/payment`, {
+    let response = await fetch(`http://localhost:8080/api/cart/payment`, {
         method: 'POST'
     });
     window.location.href = await response.text();
 }
 
 async function showCart() {
-    let response = await fetch(`http://localhost:8081/api/cart`);
+    let response = await fetch(`http://localhost:8080/api/cart`);
     let commits = await response.json();
     let li = '';
     commits.forEach(product => {

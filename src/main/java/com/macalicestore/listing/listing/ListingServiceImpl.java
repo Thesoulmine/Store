@@ -1,97 +1,77 @@
 package com.macalicestore.listing.listing;
 
-import com.macalicestore.listing.category.CategoryService;
-import com.macalicestore.listing.colour.ColourService;
-import com.macalicestore.listing.description.DescriptionService;
-import com.macalicestore.listing.material.Material;
-import com.macalicestore.listing.material.MaterialService;
 import com.macalicestore.listing.image.ImageService;
-import com.macalicestore.listing.size.SizeService;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 @Service
 public class ListingServiceImpl implements ListingService {
 
     private final ListingRepository listingRepository;
-    private final ColourService colourService;
-    private final CategoryService categoryService;
+
+    private final Map<Class<? extends Listing>, ConcreteListingService> concreteListingServiceByListingClassMap;
     private final ImageService imageService;
-    private final DescriptionService descriptionService;
-    private final SizeService sizeService;
-    private final MaterialService materialService;
 
-    public ListingServiceImpl(ListingRepository listingRepository,
-                              ColourService colourService,
-                              CategoryService categoryService,
-                              ImageService imageService,
-                              DescriptionService descriptionService,
-                              SizeService sizeService,
-                              MaterialService materialService) {
+    public ListingServiceImpl(List<ConcreteListingService> concreteListingServiceList,
+                              ListingRepository listingRepository,
+                              ImageService imageService) {
+        this.concreteListingServiceByListingClassMap = new HashMap<>();
+        concreteListingServiceList.forEach(concreteListingService ->
+                concreteListingServiceByListingClassMap.put(
+                        concreteListingService.getEntityClass(),
+                        concreteListingService));
         this.listingRepository = listingRepository;
-        this.colourService = colourService;
-        this.categoryService = categoryService;
         this.imageService = imageService;
-        this.descriptionService = descriptionService;
-        this.sizeService = sizeService;
-        this.materialService = materialService;
     }
 
-    @Transactional
     @Override
-    public List<Listing> findAllListings() {
-        return listingRepository.findAll();
+    public Page<Listing> findAllListings(Pageable pageable) {
+        return listingRepository.findAll(pageable);
     }
 
-    @Transactional
+    @Override
+    public Page<Listing> findAllListings(Set<Class<? extends Listing>> listingClasses, Pageable pageable) {
+        listingClasses.remove(Listing.class);
+        return listingRepository.findAll(Example.of(), pageable);
+    }
+
     @Override
     public Listing findListingById(Long id) {
         return listingRepository.findById(id).get();
     }
 
-    // TODO тесты на одновременное сохранение в нескольких тредах
-    @Transactional
     @Override
-    public void saveListing(Listing listing, String listingType, MultipartFile[] images) throws IOException {
-        switch (listingType) {
-            case "DIGITAL" -> saveDigitalListing(listing, images);
-            case "PHYSICAL" -> savePhysicalListing(listing, images);
-        }
+    public Listing saveListing(Listing listing, MultipartFile[] images) {
+        fillListing(listing, images);
+        getConcreteListingService(listing).fillListing(listing, images);
+        return listingRepository.save(listing);
     }
 
-    private void saveDigitalListing(Listing listing, MultipartFile[] images) throws IOException {
-        DigitalListing digitalListing = (DigitalListing) listing;
-
-        digitalListing.setImages(
-                imageService.findOrCreateImagesInDirectory(
-                        images,
-                        String.valueOf(digitalListing.getListingsGroup().getId())));
+    @Override
+    public void deleteListing(Long id) {
+        listingRepository.deleteById(id);
     }
 
-    private void savePhysicalListing(Listing listing, MultipartFile[] images) throws IOException {
-        PhysicalListing physicalListing = (PhysicalListing) listing;
+    @Override
+    public Listing updateListing(Listing listing, MultipartFile[] images) {
+        fillListing(listing, images);
+        getConcreteListingService(listing).fillListing(listing, images);
+        return listingRepository.save(listing);
+    }
 
-        physicalListing.setColour(Objects.requireNonNullElse(
-                colourService.findColourByNameOrElseNull(physicalListing.getColour().getName()),
-                physicalListing.getColour()));
+    private void fillListing(Listing listing, MultipartFile[] images) {
 
-        physicalListing.setDescription(Objects.requireNonNullElse(
-                descriptionService.findDescriptionByTextOrElseNull(physicalListing.getDescription().getText()),
-                physicalListing.getDescription()));
+    }
 
-        physicalListing.setMaterials(Objects.requireNonNullElse(
-                materialService.findMaterialsByNames(physicalListing.getMaterials().stream().map(Material::getName).toList()),
-                physicalListing.getMaterials()));
-
-        physicalListing.setImages(
-                imageService.findOrCreateImagesInDirectory(
-                        images,
-                        String.valueOf(physicalListing.getListingsGroup().getId())));
-
-        listingRepository.save(listing);
+    private ConcreteListingService getConcreteListingService(Listing listing) {
+        return concreteListingServiceByListingClassMap.get(listing.getClass());
     }
 }

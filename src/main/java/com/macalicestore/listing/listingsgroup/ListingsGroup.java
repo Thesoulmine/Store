@@ -1,7 +1,8 @@
 package com.macalicestore.listing.listingsgroup;
 
-import com.macalicestore.listing.listing.DigitalListing;
-import com.macalicestore.listing.listing.PhysicalListing;
+import com.macalicestore.listing.image.Image;
+import com.macalicestore.listing.listing.digital.DigitalListing;
+import com.macalicestore.listing.listing.physical.PhysicalListing;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,11 +21,15 @@ public class ListingsGroup {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "physical_listing_id")
+    private String title;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "image_id")
+    private Image image;
+
+    @OneToMany(mappedBy = "listingsGroup")
     private List<PhysicalListing> physicalListings;
 
-    @OneToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "digital_listing_id")
+    @OneToOne(fetch = FetchType.LAZY)
     private DigitalListing digitalListing;
 }

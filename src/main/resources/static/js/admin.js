@@ -26,7 +26,7 @@ async function addListingButton() {
     for (let i = 0; i < addListingForm.images.files.length; i++) {
         formData.append('files', addListingForm.images.files[i], addListingForm.images.files[i].name);
     }
-    let response = await fetch("http://localhost:8081/api/listings", {
+    let response = await fetch("http://localhost:8080/api/listings", {
         method: 'POST',
         body: formData
     });
@@ -35,7 +35,7 @@ async function addListingButton() {
 }
 
 async function addCategories() {
-    let response = await fetch("http://localhost:8081/api/listings/categories");
+    let response = await fetch("http://localhost:8080/api/listings/categories");
     let commits = await response.json();
     let li = ``;
     commits.forEach(element => {

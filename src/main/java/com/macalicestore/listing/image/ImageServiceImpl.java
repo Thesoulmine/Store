@@ -50,7 +50,6 @@ public class ImageServiceImpl implements ImageService {
         return image;
     }
 
-    //TODO сделать saveImages butch
     @Override
     public Resource findFileByFilenameInDirectoryAndConvertToResource(
             String fileName,
@@ -59,8 +58,6 @@ public class ImageServiceImpl implements ImageService {
         return new UrlResource(file.toUri());
     }
 
-
-    // TODO рефактор
     @Transactional
     @Override
     public List<Image> findOrCreateImagesInDirectory(MultipartFile[] images,

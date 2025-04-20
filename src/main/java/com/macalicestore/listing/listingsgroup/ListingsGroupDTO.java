@@ -1,15 +1,22 @@
 package com.macalicestore.listing.listingsgroup;
 
+import com.macalicestore.listing.image.ImageDTO;
+import com.macalicestore.listing.listing.digital.DigitalListingDTO;
+import com.macalicestore.listing.listing.physical.PhysicalListingDTO;
 import lombok.Data;
-import org.mapstruct.Mapper;
+
+import java.util.List;
 
 @Data
-@Mapper
 public class ListingsGroupDTO {
 
     private Long id;
 
-    //private List<PhysicalProductListing> physicalProductListings;
+    private String title;
 
-    //private DigitalProductListing digitalProductListing;
+    private ImageDTO image;
+
+    private List<PhysicalListingDTO> physicalProductListings;
+
+    private DigitalListingDTO digitalProductListing;
 }

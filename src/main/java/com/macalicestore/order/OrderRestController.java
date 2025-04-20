@@ -14,7 +14,6 @@ public class OrderRestController {
         this.orderService = orderService;
     }
 
-    //TODO Доделать заказы
     @PostMapping("")
     public ResponseEntity<Void> addOrder(@RequestBody Order order) {
         orderService.createOrder(order);

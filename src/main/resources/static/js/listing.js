@@ -1,8 +1,8 @@
 async function showListing() {
     let id = window.location.pathname.split("/").pop();
-    let response = await fetch(`http://localhost:8081/api/listings/${id}`);
+    let response = await fetch(`http://localhost:8080/api/listings/${id}`);
     let listing = await response.json();
-    let imageResponse = await fetch(`http://localhost:8081/api/listings/images`);
+    let imageResponse = await fetch(`http://localhost:8080/api/listings/images`);
     let imageCommits = await imageResponse.json();
     let li = '';
     li += `

@@ -1,5 +1,5 @@
 async function addToCart(data_id) {
-    let response = await fetch(`http://localhost:8081/api/cart`, {
+    let response = await fetch(`http://localhost:8080/api/cart`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -14,17 +14,17 @@ async function addToCart(data_id) {
 }
 
 async function showListings() {
-    let response = await fetch(`http://localhost:8081/api/listings`);
+    let response = await fetch(`http://localhost:8080/api/listings`);
     let commits = await response.json();
     let li = '';
     let i = 0;
     //
     commits.forEach(listing => {
         li += `
-            <a href="http://localhost:8081/listing/${listing.id}">
+            <a href="http://localhost:8080/listing/${listing.id}">
                 <div class="col">
                     <div class="card h-100">
-                        <img src="http://localhost:8081/api/listings/images/_MG_2441%20(2)%20(1)%20(1)%20(1).jpg" class="card-img-top" alt="...">
+                        <img src="http://localhost:8080/api/listings/images/_MG_2441%20(2)%20(1)%20(1)%20(1).jpg" class="card-img-top" alt="...">
                         <div class="card-body">
                             <h5 class="card-title">${listing.title}</h5>
                             <p class="card-text">${listing.description}</p>

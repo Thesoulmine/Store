@@ -6,8 +6,7 @@ import lombok.Data;
 import org.mapstruct.Mapper;
 
 @Data
-@Mapper
-public class ProductDTO {
+public class PurchaseDTO {
 
     private Long id;
 

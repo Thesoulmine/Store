@@ -3,12 +3,13 @@ package com.macalicestore.listing.listing;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.macalicestore.listing.category.Category;
-import com.macalicestore.listing.description.Description;
+import com.macalicestore.listing.description.DescriptionDTO;
 import com.macalicestore.listing.image.Image;
+import com.macalicestore.listing.listing.digital.DigitalListingDTO;
+import com.macalicestore.listing.listing.physical.PhysicalListingDTO;
+import com.macalicestore.listing.title.TitleDTO;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.persistence.Column;
 import lombok.Data;
-import org.mapstruct.Mapper;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -25,17 +26,15 @@ import java.util.List;
 })
 @Schema(subTypes = {DigitalListingDTO.class, PhysicalListingDTO.class})
 @Data
-@Mapper
 public class ListingDTO {
 
     private Long id;
 
-    private String title;
+    private TitleDTO title;
+
+    private DescriptionDTO description;
 
     private boolean isActive;
-
-    @Column(length = 65535)
-    private Description description;
 
     private BigDecimal price;
 

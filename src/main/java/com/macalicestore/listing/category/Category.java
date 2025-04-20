@@ -1,9 +1,11 @@
 package com.macalicestore.listing.category;
 
+import com.macalicestore.listing.listing.Listing;
 import jakarta.persistence.*;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.List;
 
 @Data
 @Entity
@@ -16,6 +18,6 @@ public class Category implements Serializable {
 
     private String name;
 
-//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "category")
-//    private Set<Listing> listings = new HashSet<>();
+    @ManyToMany()
+    private List<Listing> listings;
 }

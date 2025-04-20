@@ -11,10 +11,4 @@ public class DescriptionServiceImpl implements DescriptionService {
     public DescriptionServiceImpl(DescriptionRepository descriptionRepository) {
         this.descriptionRepository = descriptionRepository;
     }
-
-    @Transactional
-    @Override
-    public Description findDescriptionByTextOrElseNull(String text) {
-        return descriptionRepository.findByText(text).orElse(null);
-    }
 }

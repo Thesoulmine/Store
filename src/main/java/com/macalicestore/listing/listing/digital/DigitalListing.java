@@ -1,5 +1,6 @@
-package com.macalicestore.listing.listing;
+package com.macalicestore.listing.listing.digital;
 
+import com.macalicestore.listing.listing.Listing;
 import com.macalicestore.listing.listingsgroup.ListingsGroup;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -12,7 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "digital_product_listings")
+@Table(name = "digital_listings")
 @DiscriminatorValue("digital_listing")
 public class DigitalListing extends Listing {
 

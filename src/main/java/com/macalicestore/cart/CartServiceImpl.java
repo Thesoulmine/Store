@@ -1,5 +1,6 @@
 package com.macalicestore.cart;
 
+import com.macalicestore.listing.listing.Listing;
 import com.macalicestore.listing.listing.ListingService;
 import org.springframework.stereotype.Service;
 

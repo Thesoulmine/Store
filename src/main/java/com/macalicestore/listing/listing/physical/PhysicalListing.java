@@ -1,5 +1,6 @@
-package com.macalicestore.listing.listing;
+package com.macalicestore.listing.listing.physical;
 
+import com.macalicestore.listing.listing.Listing;
 import com.macalicestore.listing.listingsgroup.ListingsGroup;
 import com.macalicestore.listing.colour.Colour;
 import com.macalicestore.listing.material.Material;
@@ -17,7 +18,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "physical_product_listings")
+@Table(name = "physical_listings")
 @DiscriminatorValue("physical_listing")
 public class PhysicalListing extends Listing {
 
@@ -28,7 +29,8 @@ public class PhysicalListing extends Listing {
     @ManyToMany(cascade = CascadeType.PERSIST)
     private List<Material> materials;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(fetch = FetchType.LAZY,
+            cascade = CascadeType.PERSIST)
     @JoinColumn(name = "colour_id")
     private Colour colour;
 
