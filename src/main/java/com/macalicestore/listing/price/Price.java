@@ -1,9 +1,12 @@
 package com.macalicestore.listing.price;
 
+import com.macalicestore.listing.listing.Listing;
 import jakarta.persistence.*;
 import lombok.Data;
 
 import java.math.BigDecimal;
+import java.util.Currency;
+import java.util.List;
 
 @Data
 @Entity
@@ -14,9 +17,12 @@ public class Price {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private BigDecimal rub;
+    private BigDecimal cost;
 
-    private BigDecimal eur;
+    @Column(name = "currency_code")
+    @Convert(converter = CurrencyConverter.class)
+    private Currency currency;
 
-    private BigDecimal usd;
+    @OneToMany(mappedBy = "mainPrice")
+    private List<Listing> listings;
 }

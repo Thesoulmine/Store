@@ -3,6 +3,7 @@ package com.macalicestore.listing.listing;
 import com.macalicestore.listing.category.Category;
 import com.macalicestore.listing.description.Description;
 import com.macalicestore.listing.image.Image;
+import com.macalicestore.listing.price.Price;
 import com.macalicestore.listing.title.Title;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -45,7 +46,12 @@ public class Listing {
 
     private boolean isActive;
 
-    private BigDecimal price;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "main_price_id")
+    private Price mainPrice;
+
+    
+    private List<Price> prices;
 
     @ManyToMany(
             cascade = {
