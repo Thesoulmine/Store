@@ -1,6 +1,5 @@
 package com.macalicestore.cart;
 
-import com.macalicestore.listing.listing.Listing;
 import com.macalicestore.listing.listing.ListingService;
 import org.springframework.stereotype.Service;
 
@@ -50,7 +49,7 @@ public class CartServiceImpl implements CartService {
             product.setId(cart.getSequenceNumber());
             product.setListingId(listingId);
             product.setColourId(colourId);
-            product.setListingPrice(listingService.findListingById(listingId).getPrice());
+            //product.setListingPrice(listingService.findListingById(listingId).getPrice());
             product.setQuantity(1);
             cart.setSequenceNumber(cart.getSequenceNumber() + 1);
             cart.getProducts().add(product);

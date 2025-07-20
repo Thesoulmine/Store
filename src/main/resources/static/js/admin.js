@@ -10,14 +10,16 @@ async function addListingButton() {
 
     let formData = new FormData();
     let listing = {
-        title: addListingForm.title.value,
+        //title: addListingForm.title.value,
         category: {
             id: addListingForm.category.value
         },
-        description: addListingForm.description.value,
-        material: addListingForm.material.value,
-        colours: addListingForm.colours.value.split(',').map(element => element.trim()),
-        price: addListingForm.price.value
+
+        //description: addListingForm.description.value,
+        //material: addListingForm.material.value,
+       // colours: addListingForm.colours.value.split(',').map(element => element.trim()),
+        //price: addListingForm.price.value,
+        listingType: 'PHYSICAL'
     }
     formData.append('listing',
         new Blob([JSON.stringify(listing)], {

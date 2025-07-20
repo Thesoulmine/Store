@@ -1,12 +1,11 @@
 package com.macalicestore.listing.listing;
 
+import com.macalicestore.listing.listing.physical.PhysicalListing;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
-public interface ListingRepository extends JpaRepository<Listing, Long> {
-
-    @Query("SELECT i FROM Listing i JOIN FETCH i.categories")
-    List<Listing> getAll();
+public interface ListingRepository<T extends Listing> extends JpaRepository<T, Long>, JpaSpecificationExecutor<T> {
 }

@@ -3,21 +3,20 @@ package com.macalicestore.listing.image;
 import org.springframework.core.io.Resource;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
 import java.util.List;
 
 public interface ImageService {
 
-    List<Image> findAll();
+    List<Image> getAll();
 
-    Image findById(Long id);
+    List<Image> getAllById(List<Long> ids);
 
-    Image saveImageInDirectory(MultipartFile file, String directoryName) throws IOException;
+    Image getById(Long id);
 
-    Resource findFileByFilenameInDirectoryAndConvertToResource(String filename, String directoryName) throws MalformedURLException;
+    Image create(MultipartFile file, String directoryName);
 
-    List<Image> findOrCreateImagesInDirectory(MultipartFile[] images, String directoryName) throws IOException;
+    Image delete(Image image);
 
-    void createDirectoryIfNotExist(String directoryName) throws IOException;
+    Resource getAsResource(String filename, String directoryName);
+
 }

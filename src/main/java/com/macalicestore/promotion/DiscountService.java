@@ -21,11 +21,11 @@ public class DiscountService {
         return discountRepository.save(discount);
     }
 
-    public BigDecimal getBiggestDiscount(Listing listing, List<Discount> discounts) {
-        return discounts.stream()
-                .map(discount ->
-                        discount.getDiscountType().calculateDiscount(listing.getPrice(), discount.getValue()))
-                .min(BigDecimal::compareTo)
-                .orElse(listing.getPrice());
-    }
+//    public BigDecimal getBiggestDiscount(Listing listing, List<Discount> discounts) {
+//        return discounts.stream()
+//                .map(discount ->
+//                        discount.getDiscountType().calculateDiscount(listing.getPrice(), discount.getValue()))
+//                .min(BigDecimal::compareTo)
+//                .orElse(listing.getPrice());
+//    }
 }

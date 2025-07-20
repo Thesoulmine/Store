@@ -10,19 +10,22 @@ import java.util.List;
 
 @Data
 @Entity
-@Table(name = "titles")
+@Table(name = "prices")
 public class Price {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private BigDecimal cost;
+    private BigDecimal value;
 
     @Column(name = "currency_code")
     @Convert(converter = CurrencyConverter.class)
     private Currency currency;
 
-    @OneToMany(mappedBy = "mainPrice")
-    private List<Listing> listings;
+//    @OneToMany(mappedBy = "mainPrice")
+//    private List<Listing> listings;
+//
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    private Listing listing;
 }

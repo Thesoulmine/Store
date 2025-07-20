@@ -6,6 +6,8 @@ import com.macalicestore.listing.image.Image;
 import com.macalicestore.listing.price.Price;
 import com.macalicestore.listing.title.Title;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -46,12 +48,12 @@ public class Listing {
 
     private boolean isActive;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "main_price_id")
-    private Price mainPrice;
-
-    
-    private List<Price> prices;
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "main_price_id")
+//    private Price mainPrice;
+//
+//    @OneToMany(mappedBy = "listing")
+//    private List<Price> prices;
 
     @ManyToMany(
             cascade = {

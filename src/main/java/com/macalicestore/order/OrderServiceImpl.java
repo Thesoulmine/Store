@@ -2,10 +2,9 @@ package com.macalicestore.order;
 
 import com.macalicestore.cart.CartProductDTO;
 import com.macalicestore.cart.CartService;
-import com.macalicestore.listing.listing.Listing;
+import com.macalicestore.listing.listing.ListingService;
 import com.macalicestore.purchase.Purchase;
 import com.macalicestore.listing.colour.ColourService;
-import com.macalicestore.listing.listing.ListingService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -39,7 +38,7 @@ public class OrderServiceImpl implements OrderService {
 
         for (CartProductDTO cartProductDTO : cartProductDTOS) {
             Purchase purchase = new Purchase();
-            purchase.setListing(listingService.findListingById(cartProductDTO.getListingId()));
+            purchase.setListing(listingService.findById(cartProductDTO.getListingId()));
             purchase.setColour(colourService.findColourById(cartProductDTO.getColourId()));
             purchase.setQuantity(cartProductDTO.getQuantity());
             purchases.add(purchase);

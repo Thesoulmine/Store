@@ -25,11 +25,14 @@ public class ListingsGroup {
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "image_id")
-    private Image image;
+    private Image mainImage;
 
     @OneToMany(mappedBy = "listingsGroup")
     private List<PhysicalListing> physicalListings;
 
     @OneToOne(fetch = FetchType.LAZY)
     private DigitalListing digitalListing;
+
+//    @OneToMany(mappedBy = "listingsGroup")
+//    private List<Image> images;
 }

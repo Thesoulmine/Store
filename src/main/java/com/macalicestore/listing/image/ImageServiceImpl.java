@@ -1,91 +1,79 @@
 package com.macalicestore.listing.image;
 
+import com.macalicestore.filesystem.FileSystemRepository;
+import jakarta.annotation.PostConstruct;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.core.io.Resource;
-import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.MessageFormat;
 import java.time.LocalDateTime;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 public class ImageServiceImpl implements ImageService {
 
     private final ImageRepository imageRepository;
 
-    public ImageServiceImpl(ImageRepository imageRepository) {
+    private final FileSystemRepository fileSystemRepository;
+
+    private final static Path IMAGES_DIRECTORY_PATH = Paths.get("images");
+
+    public ImageServiceImpl(ImageRepository imageRepository, FileSystemRepository fileSystemRepository) {
         this.imageRepository = imageRepository;
+        this.fileSystemRepository = fileSystemRepository;
+    }
+
+    @PostConstruct
+    public void init() {
+        fileSystemRepository.createDirectory(IMAGES_DIRECTORY_PATH);
     }
 
     @Transactional
     @Override
-    public List<Image> findAll() {
+    public List<Image> getAll() {
         return imageRepository.findAll();
     }
 
     @Transactional
     @Override
-    public Image findById(Long id) {
-        return imageRepository.findById(id).get();
+    public List<Image> getAllById(List<Long> ids) {
+        return imageRepository.findAllById(ids);
     }
 
     @Transactional
     @Override
-    public Image saveImageInDirectory(MultipartFile file, String directoryName) throws IOException {
+    public Image getById(Long id) {
+        return imageRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+    }
+
+    @Transactional
+    @Override
+    public Image create(MultipartFile file, String directoryName) {
         Image image = new Image();
         image.setUploadDate(LocalDateTime.now());
         image.setName(file.getOriginalFilename());
         image.setType(file.getContentType());
-        image.setUrl(MessageFormat.format("localhost:8080/uploads/images/{0}/{1}", directoryName, image.getName()));
+        image.setUrl(IMAGES_DIRECTORY_PATH.resolve(directoryName).resolve(image.getName()).toString());
         image = imageRepository.save(image);
-        file.transferTo(Paths.get("src/main/resources/static/images", directoryName, image.getName()));
+        fileSystemRepository.saveFile(MessageFormat.format("images/{0}", directoryName), image.getName(), file);
         return image;
-    }
-
-    @Override
-    public Resource findFileByFilenameInDirectoryAndConvertToResource(
-            String fileName,
-            String directoryName) throws MalformedURLException {
-        Path file = Paths.get("src/main/resources/static/images", directoryName, fileName);
-        return new UrlResource(file.toUri());
     }
 
     @Transactional
     @Override
-    public List<Image> findOrCreateImagesInDirectory(MultipartFile[] images,
-                                                     String directoryName) throws IOException {
-        List<Image> existedImages = imageRepository.findImagesByNameIn(
-                Arrays.stream(images)
-                        .map(MultipartFile::getOriginalFilename)
-                        .toList());
-        Map<String, Image> nameImageMap = existedImages.stream()
-                .collect(Collectors.toMap(Image::getName, image -> image));
-        List<Image> returnList = new ArrayList<>();
-
-        for (MultipartFile file : images) {
-            if (nameImageMap.get(file.getOriginalFilename()) == null) {
-                returnList.add(saveImageInDirectory(file, directoryName));
-            } else {
-                returnList.add(nameImageMap.get(file.getOriginalFilename()));
-            }
-        }
-        return returnList;
+    public Image delete(Image image) {
+        imageRepository.delete(image);
+        fileSystemRepository.deleteFile(IMAGES_DIRECTORY_PATH.resolve(image.getUrl()));
+        return image;
     }
 
     @Override
-    public void createDirectoryIfNotExist(String directoryName) throws IOException {
-        Path directory = Paths.get("src/main/resources/static/images").resolve(directoryName);
-
-        if (!Files.exists(directory)) {
-            Files.createDirectory(directory);
-        }
+    public Resource getAsResource(String fileName, String directoryName) {
+        return fileSystemRepository.findFileByPath(IMAGES_DIRECTORY_PATH.resolve(Paths.get(directoryName, fileName)));
     }
 }

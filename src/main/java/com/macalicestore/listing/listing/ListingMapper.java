@@ -2,8 +2,10 @@ package com.macalicestore.listing.listing;
 
 import com.macalicestore.listing.listing.digital.DigitalListing;
 import com.macalicestore.listing.listing.digital.DigitalListingDTO;
+import com.macalicestore.listing.listing.digital.SaveDigitalListingDTO;
 import com.macalicestore.listing.listing.physical.PhysicalListing;
 import com.macalicestore.listing.listing.physical.PhysicalListingDTO;
+import com.macalicestore.listing.listing.physical.SavePhysicalListingDTO;
 import org.mapstruct.*;
 
 import java.util.List;
@@ -14,14 +16,20 @@ public interface ListingMapper {
     @Mapping(target = "images", ignore = true)
     @SubclassMapping(source = PhysicalListing.class, target = PhysicalListingDTO.class)
     @SubclassMapping(source = DigitalListing.class, target = DigitalListingDTO.class)
-    ListingDTO toDTO(Listing listing);
+    <T extends ListingDTO> T toDTO(Listing listing);
 
     @Mapping(target = "images", ignore = true)
     @SubclassMapping(source = PhysicalListingDTO.class, target = PhysicalListing.class)
     @SubclassMapping(source = DigitalListingDTO.class, target = DigitalListing.class)
-    Listing toEntity(ListingDTO listingDTO);
+    <T extends Listing> T toEntity(ListingDTO listingDTO);
 
-    List<Listing> toEntity(List<ListingDTO> listingDTO);
+    @Mapping(target = "images", ignore = true)
+    @SubclassMapping(source = PhysicalListing.class, target = SavePhysicalListingDTO.class)
+    @SubclassMapping(source = DigitalListing.class, target = SaveDigitalListingDTO.class)
+    <T extends SaveListingDTO> T toSaveDTO(Listing listing);
 
-    List<ListingDTO> toDto(List<Listing> listing);
+    @Mapping(target = "images", ignore = true)
+    @SubclassMapping(source = SavePhysicalListingDTO.class, target = PhysicalListing.class)
+    @SubclassMapping(source = SaveDigitalListingDTO.class, target = DigitalListing.class)
+    <T extends Listing> T toEntity(SaveListingDTO listingDTO);
 }
