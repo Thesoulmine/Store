@@ -9,9 +9,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @RestController
@@ -30,30 +30,28 @@ public class ListingController {
     public ResponseEntity<Page<ListingDTO>> getAllListings(
             @RequestParam(value = "page", defaultValue = "0") @Min(0) Integer page,
             @RequestParam(value = "limit", defaultValue = "20") @Min(1) @Max(100) Integer limit,
-            @RequestParam("order") String order) {
+            @RequestParam("order") Sort.Direction order) {
         return new ResponseEntity<>(
                 listingService
-                        .findAll(
-                                new HashSet<>(Set.of(DigitalListing.class)),
-                                PageRequest.of(page, limit, Sort.Direction.fromString(order)))
+                        .findAll(new HashSet<>(Set.of(DigitalListing.class)), PageRequest.of(page, limit, order))
                         .map(listingMapper::toDTO),
                 HttpStatus.OK);
     }
 
     @GetMapping("/listings/{listingId}")
-    public ResponseEntity<ListingDTO> getListing(@PathVariable("listingId") Long listingId) {
+    public ResponseEntity<ListingDTO> getListing(@PathVariable Long listingId) {
         return new ResponseEntity<>(
-                listingMapper.toDTO(
-                        listingService.findById(listingId)),
+                listingMapper.toDTO(listingService.findById(listingId)),
                 HttpStatus.OK);
     }
 
     @PostMapping(value = "/listings", consumes = "multipart/form-data")
     public ResponseEntity<ListingDTO> createNewListing(
-            @RequestPart("listing")  SaveListingDTO saveListingDTO,
-            @RequestPart("files") MultipartFile[] images) {
+            @RequestPart("listing") SaveListingDTO listing,
+            @RequestPart("images") List<SaveListingDTO.ImageDTO> images) {
+        listing.setImages(images);
         return new ResponseEntity<>(
-                listingMapper.toDTO(listingService.create(saveListingDTO)),
+                listingMapper.toDTO(listingService.create(listing)),
                 HttpStatus.OK);
     }
 }

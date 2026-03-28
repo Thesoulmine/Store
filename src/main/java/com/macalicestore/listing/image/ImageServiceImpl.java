@@ -1,5 +1,6 @@
 package com.macalicestore.listing.image;
 
+import com.macalicestore.base.BaseMapper;
 import com.macalicestore.filesystem.FileSystemRepository;
 import jakarta.annotation.PostConstruct;
 import jakarta.persistence.EntityNotFoundException;
@@ -21,11 +22,14 @@ public class ImageServiceImpl implements ImageService {
 
     private final FileSystemRepository fileSystemRepository;
 
+    private final BaseMapper<Image, ImageDTO> imageMapper;
+
     private final static Path IMAGES_DIRECTORY_PATH = Paths.get("images");
 
-    public ImageServiceImpl(ImageRepository imageRepository, FileSystemRepository fileSystemRepository) {
+    public ImageServiceImpl(ImageRepository imageRepository, FileSystemRepository fileSystemRepository, BaseMapper<Image, ImageDTO> imageMapper) {
         this.imageRepository = imageRepository;
         this.fileSystemRepository = fileSystemRepository;
+        this.imageMapper = imageMapper;
     }
 
     @PostConstruct

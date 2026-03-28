@@ -16,20 +16,20 @@ public interface ListingMapper {
     @Mapping(target = "images", ignore = true)
     @SubclassMapping(source = PhysicalListing.class, target = PhysicalListingDTO.class)
     @SubclassMapping(source = DigitalListing.class, target = DigitalListingDTO.class)
-    <T extends ListingDTO> T toDTO(Listing listing);
+    ListingDTO toDTO(Listing listing);
 
     @Mapping(target = "images", ignore = true)
     @SubclassMapping(source = PhysicalListingDTO.class, target = PhysicalListing.class)
     @SubclassMapping(source = DigitalListingDTO.class, target = DigitalListing.class)
-    <T extends Listing> T toEntity(ListingDTO listingDTO);
+    Listing toEntity(ListingDTO listingDTO);
 
     @Mapping(target = "images", ignore = true)
     @SubclassMapping(source = PhysicalListing.class, target = SavePhysicalListingDTO.class)
     @SubclassMapping(source = DigitalListing.class, target = SaveDigitalListingDTO.class)
-    <T extends SaveListingDTO> T toSaveDTO(Listing listing);
+    SaveListingDTO toSaveDTO(Listing listing);
 
     @Mapping(target = "images", ignore = true)
     @SubclassMapping(source = SavePhysicalListingDTO.class, target = PhysicalListing.class)
     @SubclassMapping(source = SaveDigitalListingDTO.class, target = DigitalListing.class)
-    <T extends Listing> T toEntity(SaveListingDTO listingDTO);
+    Listing toEntity(SaveListingDTO listingDTO);
 }

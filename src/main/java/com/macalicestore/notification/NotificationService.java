@@ -1,6 +1,5 @@
-package com.macalicestore.notification.message.mail;
+package com.macalicestore.notification;
 
 public interface NotificationService {
-    void sendEmailNotification(String toAddress,
-                               MailMessageTemplate mailMessageTemplate);
+    void sendEmailNotification(String toAddress, MailMessageTemplate mailMessageTemplate);
 }

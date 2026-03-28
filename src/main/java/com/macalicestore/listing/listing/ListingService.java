@@ -42,7 +42,7 @@ public class ListingService extends CommonListingService {
             return listingRepository.findAll(pageable);
         }
         Specification<Listing> specification =
-                (root, query, criteriaBuilder) -> root.get("listingType").in(listingClasses);
+                (root, _, _) -> root.get("listingType").in(listingClasses);
         return listingRepository.findAll(specification, pageable);
     }
 

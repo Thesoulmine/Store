@@ -14,47 +14,8 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class WebSecurityConfig {
 
-    private final UserService userService;
-
-    private final PasswordEncoder passwordEncoder;
-
-    private final SuccessUserHandler successUserHandler;
-
-    public WebSecurityConfig(SuccessUserHandler successUserHandler, UserService userService, PasswordEncoder passwordEncoder) {
-        this.successUserHandler = successUserHandler;
-        this.userService = userService;
-        this.passwordEncoder = passwordEncoder;
-    }
-
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http
-                .csrf()
-                    .disable()
-                .authorizeHttpRequests()
-                    .requestMatchers("/**").permitAll()
-//                    .antMatchers("/api/**").permitAll()
-                    .requestMatchers("/admin").hasAuthority("ADMIN")
-//                    .antMatchers("/user").hasAnyAuthority("USER", "ADMIN")
-                    .anyRequest().authenticated();
-//                .and()
-//                    .formLogin()
-//                    .loginPage("/")
-//                    .loginProcessingUrl("/login")
-//                    .successHandler(successUserHandler)
-//                    .permitAll()
-//                .and()
-//                    .logout()
-//                    .permitAll();
-
+    public SecurityFilterChain filterChain(HttpSecurity http) {
         return http.build();
-    }
-
-    @Bean
-    public DaoAuthenticationProvider daoAuthenticationProvider() {
-        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
-        authenticationProvider.setPasswordEncoder(passwordEncoder);
-        authenticationProvider.setUserDetailsService((UserDetailsService) userService);
-        return authenticationProvider;
     }
 }

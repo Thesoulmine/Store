@@ -1,4 +1,4 @@
-package com.macalicestore.notification.message.mail;
+package com.macalicestore.notification;
 
 import org.thymeleaf.context.Context;
 

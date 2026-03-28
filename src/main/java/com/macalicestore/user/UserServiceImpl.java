@@ -4,7 +4,6 @@ import org.hibernate.Hibernate;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,28 +14,19 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     private final UserRepository userRepository;
 
-    private final PasswordEncoder passwordEncoder;
-
-    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public UserServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
     }
 
     @Transactional
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(username);
-
         if (user == null) {
             throw new UsernameNotFoundException("User not found");
         }
-
         Hibernate.initialize(user.getRoles());
         return user;
-    }
-
-    public String encodePassword(String password) {
-        return passwordEncoder.encode(password);
     }
 
     @Transactional
@@ -66,16 +56,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Transactional
     @Override
     public void saveUser(User user) {
-        user.setPassword(encodePassword(user.getPassword()));
-        userRepository.save(user);
-    }
-
-    @Transactional
-    @Override
-    public void updateUser(User user) {
-        if (!user.getPassword().equals(getUserById(user.getId()).getPassword())) {
-            user.setPassword(encodePassword(user.getPassword()));
-        }
         userRepository.save(user);
     }
 

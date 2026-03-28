@@ -30,7 +30,7 @@ public abstract class ConcreteListingService<E extends Listing, D extends Listin
     @Transactional
     @Override
     public E create(S saveListingDTO) {
-        E listing = listingMapper.toEntity(saveListingDTO);
+        E listing = (E) listingMapper.toEntity(saveListingDTO);
         fillListing(listing, saveListingDTO);
         fillConcreteListing(listing, saveListingDTO);
         return listingRepository.save(listing);
@@ -45,17 +45,22 @@ public abstract class ConcreteListingService<E extends Listing, D extends Listin
     @Transactional
     @Override
     public E update(S saveListingDTO) {
-        E listing = listingMapper.toEntity(saveListingDTO);
+        E listing = (E) listingMapper.toEntity(saveListingDTO);
         fillListing(listing, saveListingDTO);
         fillConcreteListing(listing, saveListingDTO);
         return listingRepository.save(listing);
     }
 
     private void fillListing(E listing, S saveListingDTO) {
-        listing.setImages(imageService.getAllById(saveListingDTO.getExistingImageIds()));
-        saveListingDTO.getNewImages().stream()
-                .map(image -> imageService.create(image, saveListingDTO.getId().toString()))
-                .forEach(image -> listing.getImages().add(image));
+//        saveListingDTO.getImages().stream()
+//                .filter(SaveListingDTO.SaveListingImageDTO::isNew)
+//                .map(SaveListingDTO.SaveListingImageDTO::getImage)
+//                .map(image -> imageService.create(image, saveListingDTO.getId().toString()))
+//                .forEach(image -> listing.getImages().add(image));
+//        saveListingDTO.getImages().stream()
+//                .filter(saveListingImageDTO -> !saveListingImageDTO.isNew())
+//                .map(SaveListingDTO.SaveListingImageDTO::getImage)
+//                .map(image -> imageService.getById( ))
     }
 
     public abstract Class<E> getEntityClass();

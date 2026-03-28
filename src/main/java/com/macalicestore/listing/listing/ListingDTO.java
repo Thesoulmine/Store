@@ -8,7 +8,6 @@ import com.macalicestore.listing.image.Image;
 import com.macalicestore.listing.listing.digital.DigitalListingDTO;
 import com.macalicestore.listing.listing.physical.PhysicalListingDTO;
 import com.macalicestore.listing.title.TitleDTO;
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -24,7 +23,6 @@ import java.util.List;
         @JsonSubTypes.Type(value = DigitalListingDTO.class, name = "DIGITAL"),
         @JsonSubTypes.Type(value = PhysicalListingDTO.class, name = "PHYSICAL")
 })
-@Schema(subTypes = {DigitalListingDTO.class, PhysicalListingDTO.class})
 @Data
 public class ListingDTO {
 
