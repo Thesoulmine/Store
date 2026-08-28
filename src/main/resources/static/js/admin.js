@@ -1,44 +1,53 @@
 async function addListingButton() {
-    let formData = new FormData();
-    let images = []
-    for (let i = 0; i < addListingForm.images.files.length; i++) {
-        let image = {
+    const form = addListingForm;
+    const formData = new FormData();
+
+    const images = [];
+    for (let i = 0; i < form.images.files.length; i++) {
+        images.push({
             imageType: 'NEW',
             image: i
-        }
-        images.push(image);
+        });
     }
-    let listing = {
-        //title: addListingForm.title.value,
-        //description: addListingForm.description.value,
-        // category: {
-        //     id: addListingForm.category.value
-        // },
-        images,
-        //price: addListingForm.price.value
-    }
-    formData.append('listing',
-        new Blob([JSON.stringify(listing)], {
-            type: 'application/json'
+
+    const product = {
+        title: form.title.value,
+        description: form.description.value,
+        price: form.price.value,
+        isActive: true,
+        categories: form.category.value ? [{ id: Number(form.category.value) }] : [],
+        images
+    };
+
+    formData.append('listing', new Blob([JSON.stringify(product)], {
+        type: 'application/json'
     }));
-    for (let i = 0; i < addListingForm.images.files.length; i++) {
-        formData.append('images[' + i + ']', addListingForm.images.files[i], addListingForm.images.files[i].name);
+
+    for (let i = 0; i < form.images.files.length; i++) {
+        formData.append('images[' + i + ']', form.images.files[i], form.images.files[i].name);
     }
-     await fetch("http://localhost:8080/api/products", {
+
+    const response = await fetch('/api/products', {
         method: 'POST',
         body: formData
     });
-    addListingForm.reset();
+
+    if (!response.ok) {
+        console.error('Failed to create product', await response.text());
+        return;
+    }
+
+    form.reset();
 }
 
 async function addCategories() {
-    let response = await fetch("http://localhost:8080/api/listings/categories");
+    let response = await fetch('/api/listings/categories');
     let commits = await response.json();
     let li = ``;
     commits.forEach(element => {
         li += `<option value="${element.id}">${element.name}</option>`
     });
-    document.getElementById("categoryFormSelect").innerHTML = li;
+    document.getElementById('categoryFormSelect').innerHTML = li;
 }
 
 window.onload = function() {

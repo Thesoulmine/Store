@@ -2,25 +2,27 @@ package com.store.product.product;
 
 import com.store.base.BaseMapper;
 import com.store.base.BaseRestController;
-import com.store.base.BaseService;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.util.List;
+import org.springframework.http.HttpStatus;
 
 @RestController
 @RequestMapping("/api/products")
 public class ProductController extends BaseRestController<Product, ProductDTO> {
 
-    public ProductController(BaseService<Product> service, BaseMapper<Product, ProductDTO> mapper) {
-        super(service, mapper);
+    private final ProductService productService;
+
+    public ProductController(
+            ProductService productService,
+            BaseMapper<Product, ProductDTO> mapper) {
+        super(productService, mapper);
+        this.productService = productService;
     }
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @Override
-    public ResponseEntity<ProductDTO> create(@RequestPart("listing") ProductDTO dto) {
-        return super.create(dto);
+    public ResponseEntity<ProductDTO> create(@RequestPart("listing") SaveProductDTO dto) {
+        return new ResponseEntity<>(mapper.toDto(productService.create(dto)), HttpStatus.OK);
     }
 }
